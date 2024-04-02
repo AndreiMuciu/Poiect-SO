@@ -13,7 +13,7 @@ void get_file_metadata(const char *filename) {
 
     if (stat(filename, &fileStat) < 0) {
         perror("Eroare la obținerea metadatelor");
-        return;
+        exit(EXIT_FAILURE);
     }
 
     printf("Nume: %s\n", filename);
@@ -29,7 +29,7 @@ void traverse_directory(const char *dir_name) {
 
     if (!(dir = opendir(dir_name))) {
         perror("Eroare la deschiderea directorului");
-        return;
+        exit(EXIT_FAILURE);
     }
 
     while ((entry = readdir(dir)) != NULL) {
@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
 {
     if(argc != 2)
     {
-        printf("Numarul de argumente dat este gresit");
+        perror("Numarul de argumente dat este gresit");
         exit(EXIT_FAILURE);
     }
     const char *nume_director = argv[1];
