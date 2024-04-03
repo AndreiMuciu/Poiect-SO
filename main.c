@@ -72,11 +72,13 @@ void verific_daca_argumentele_este_director(int argc, char *argv[])   //greseala
     {
         if (stat(argv[i], &fileInfo) == 0) {
             if (S_ISDIR(fileInfo.st_mode)) {
+                printf("fisierul %s este director\n", argv[i]);
                 traverse_directory(argv[i]);
             } else {
-                traverse_directory(argv[i]);
+                printf("fisierul %s nu este director", argv[i]);
+                //traverse_directory(argv[i]);
             }
-            } else {
+        } else {
             perror("Eroare în obținerea informațiilor despre fișier");
             exit(EXIT_FAILURE);
         }
@@ -91,7 +93,6 @@ int main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
     verific_daca_se_repeta(argc, argv);
-    const char *nume_director = argv[1];
-    traverse_directory(nume_director);
+    verific_daca_argumentele_este_director(argc, argv);
     return 0;
 }
