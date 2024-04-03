@@ -18,11 +18,10 @@ void get_file_metadata(const char *filename) {
 
     printf("Nume: %s\n", filename);
     printf("Dimensiune: %ld bytes\n", fileStat.st_size);
-    printf("Ultima modificare: %s", ctime(&fileStat.st_mtime)); // Convertim timpul într-un format ușor de citit
+    printf("Ultima modificare: %s", ctime(&fileStat.st_mtime));
     printf("-------------------------------------\n");
 }
 
-// Funcție pentru a parcurge recursiv un director și a obține metadatele fișierelor
 void traverse_directory(const char *dir_name) {
     DIR *dir;
     struct dirent *entry;
@@ -49,13 +48,35 @@ void traverse_directory(const char *dir_name) {
     closedir(dir);
 }
 
+void verific_daca_se_repeta(int argc, char *argv[])
+{
+    int i, j;
+    for(i = 0; i < argc; i++)
+    {
+        for(j = i + 1; j < argc; j++)
+        {
+            if(strcmp(argv[i], argv[j]) == 0)
+            {
+                printf("Argumentele date se repeta");
+                exit(EXIT_FAILURE);
+            }
+        }
+    }
+}
+
+void verific_daca_argumentele_este_director(int argc, char *argv[])   //greseala gramaticala din adins provocata
+{
+    
+}
+
 int main(int argc, char *argv[])
 {
-    if(argc != 2)
+    if(argc < 10)
     {
         perror("Numarul de argumente dat este gresit");
         exit(EXIT_FAILURE);
     }
+    verific_daca_se_repeta(argc, argv);
     const char *nume_director = argv[1];
     traverse_directory(nume_director);
     return 0;
