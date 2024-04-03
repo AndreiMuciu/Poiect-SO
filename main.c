@@ -51,13 +51,13 @@ void traverse_directory(const char *dir_name) {
 void verific_daca_se_repeta(int argc, char *argv[])
 {
     int i, j;
-    for(i = 0; i < argc; i++)
+    for(i = 1; i < argc; i++)
     {
         for(j = i + 1; j < argc; j++)
         {
             if(strcmp(argv[i], argv[j]) == 0)
             {
-                printf("Argumentele date se repeta");
+                perror("Argumentele date se repeta");
                 exit(EXIT_FAILURE);
             }
         }
@@ -66,12 +66,26 @@ void verific_daca_se_repeta(int argc, char *argv[])
 
 void verific_daca_argumentele_este_director(int argc, char *argv[])   //greseala gramaticala din adins provocata
 {
-    
+    int i;
+    struct stat fileInfo;
+    for(i = 1; i < argc - 2; i++)
+    {
+        if (stat(argv[i], &fileInfo) == 0) {
+            if (S_ISDIR(fileInfo.st_mode)) {
+                traverse_directory(argv[i]);
+            } else {
+                traverse_directory(argv[i]);
+            }
+            } else {
+            perror("Eroare în obținerea informațiilor despre fișier");
+            exit(EXIT_FAILURE);
+        }
+    }
 }
 
 int main(int argc, char *argv[])
 {
-    if(argc < 10)
+    if(argc > 10)
     {
         perror("Numarul de argumente dat este gresit");
         exit(EXIT_FAILURE);
